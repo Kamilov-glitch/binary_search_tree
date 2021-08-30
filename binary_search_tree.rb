@@ -59,7 +59,21 @@ class Tree
     postorder(root.left) if root.left
   end
 
-  def height
+  def depth(root = @root)
+    if root == nil
+      return -1
+    else
+      left_side = height(root.left)
+      right_side = height(root.right)
+      if left_side > right_side
+        left_side+=1
+      else
+        right_side+=1
+      end
+    end
+  end
+
+  def 
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -78,4 +92,5 @@ new_tree.build_tree
 new_tree.pretty_print
 # new_tree.preorder
 # new_tree.inorder
-new_tree.postorder
+# new_tree.postorder
+p new_tree.height
