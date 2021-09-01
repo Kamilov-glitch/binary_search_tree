@@ -29,6 +29,22 @@ class Tree
     root
   end
 
+  def insert(val, root = @root)
+    if root == nil
+      return root = Node.new(val)
+    else 
+      if val == root.data
+        return root
+      elsif val < root.data
+        root.left = insert(val, root.left)
+      else
+        root.right = insert(val, root.right)
+      end
+    end
+    @root = root
+    root
+  end
+
   def preorder(root = @root)
     unless root == nil
       puts root.data 
@@ -73,8 +89,6 @@ class Tree
     end
   end
 
-  def 
-
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -90,7 +104,11 @@ new_tree = Tree.new(arr)
 new_tree.build_tree
 # p new_tree.root
 new_tree.pretty_print
+p new_tree.insert(22)
+new_tree.insert(32832)
+puts " "
+new_tree.pretty_print
 # new_tree.preorder
 # new_tree.inorder
 # new_tree.postorder
-p new_tree.height
+# p new_tree.height
