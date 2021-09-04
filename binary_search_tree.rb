@@ -79,6 +79,21 @@ class Tree
     root
   end 
 
+  def find(val, node = @root)
+    if node != nil
+      if node.data == val
+      found_node = node
+      return found_node
+      else
+        found_node = find(val, node.left)
+        if found_node == nil
+          found_node = find(val, node.right)
+        end
+      end
+    end
+    found_node
+  end
+
 
   def preorder(root = @root)
     unless root == nil
@@ -145,6 +160,7 @@ new_tree.pretty_print
 # p new_tree.inorder
 # new_tree.postorder
 # p new_tree.height
-p new_tree.minValue
-new_tree.delete(67)
-new_tree.pretty_print
+# p new_tree.minValue
+# new_tree.delete(67)
+# new_tree.pretty_print
+p new_tree.find(1)
