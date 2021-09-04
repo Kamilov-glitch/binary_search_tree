@@ -108,14 +108,13 @@ class Tree
     array
   end
 
-  def level_order_rec(root = @root, queue = [], array = [])
-    return root if root == nil
-    queue.push(root)
-    current = queue[0]
-    array.push(queue.shift().data())
-    level_order_rec(current.left, queue, array) if current.left && queue.empty?
-    level_order_rec(current.right, queue, array) if current.right
-    array
+  def level_order_rec(node = @root, queue = [], array = [])
+    return array if node == nil
+    array.push(node.data)
+    queue.push(node.left) if node.left
+    queue.push(node.right) if node.right
+
+    level_order_rec(queue.shift, queue, array)
   end
 
   def preorder(root = @root)
@@ -188,4 +187,4 @@ new_tree.pretty_print
 # new_tree.pretty_print
 # p new_tree.find(1)
 p new_tree.level_order
-p new_tree.level_order_rec
+p new_tree.level_order_rec()
