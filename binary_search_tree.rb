@@ -45,6 +45,41 @@ class Tree
     root
   end
 
+  def minValue(node=@root)
+    current = node
+    until current.left == nil
+      current = current.left
+    end
+    current
+  end
+
+  def delete(val, root=@root)
+    if root == nil
+      return root
+    end 
+    if root.data > val
+      root.left = delete(val, root.left)
+    elsif root.data < val
+      root.right = delete(val, root.right)
+    else
+      if root.left == nil
+        temp = root.right
+        root = nil
+        return temp
+      elsif root.right == nil
+        temp = root.left
+        root = nil
+        return temp
+      end
+      temp = minValue(root.right)
+      root.data = temp.data
+      root.right = delete(temp.data, root.right)
+    end
+    @root = root
+    root
+  end 
+
+
   def preorder(root = @root)
     unless root == nil
       puts root.data 
@@ -55,12 +90,10 @@ class Tree
     preorder(root.right)
   end
 
-  def inorder(root = @root)
+  def inorder(root = @root, array = [])
     inorder(root.left) if root.left
     unless root == nil
-      puts root.data 
-    else
-      return nil
+      puts root.data
     end
     inorder(root.right) if root.right
   end
@@ -109,6 +142,9 @@ new_tree.insert(32832)
 puts " "
 new_tree.pretty_print
 # new_tree.preorder
-# new_tree.inorder
+# p new_tree.inorder
 # new_tree.postorder
 # p new_tree.height
+p new_tree.minValue
+new_tree.delete(67)
+new_tree.pretty_print
