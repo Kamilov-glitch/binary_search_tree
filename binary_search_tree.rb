@@ -94,6 +94,29 @@ class Tree
     found_node
   end
 
+  def level_order(root=@root)
+    return root if root == nil
+    array = []
+    queue = []
+    queue.push(root)
+    until queue.empty?
+      current = queue[0]
+      queue.push(current.left) if current.left
+      queue.push(current.right) if current.right
+      array.push(queue.shift.data)
+    end
+    array
+  end
+
+  def level_order_rec(root = @root, queue = [], array = [])
+    return root if root == nil
+    queue.push(root)
+    current = queue[0]
+    array.push(queue.shift().data())
+    level_order_rec(current.left, queue, array) if current.left && queue.empty?
+    level_order_rec(current.right, queue, array) if current.right
+    array
+  end
 
   def preorder(root = @root)
     unless root == nil
@@ -152,10 +175,10 @@ new_tree = Tree.new(arr)
 new_tree.build_tree
 # p new_tree.root
 new_tree.pretty_print
-p new_tree.insert(22)
-new_tree.insert(32832)
-puts " "
-new_tree.pretty_print
+# p new_tree.insert(22)
+# new_tree.insert(32832)
+# puts " "
+# new_tree.pretty_print
 # new_tree.preorder
 # p new_tree.inorder
 # new_tree.postorder
@@ -163,4 +186,6 @@ new_tree.pretty_print
 # p new_tree.minValue
 # new_tree.delete(67)
 # new_tree.pretty_print
-p new_tree.find(1)
+# p new_tree.find(1)
+p new_tree.level_order
+p new_tree.level_order_rec
