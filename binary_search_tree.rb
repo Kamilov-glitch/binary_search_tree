@@ -145,18 +145,44 @@ class Tree
     postorder(root.left) if root.left
   end
 
-  def depth(root = @root)
-    if root == nil
+  def height(node = @root)
+    if node == nil
       return -1
     else
-      left_side = height(root.left)
-      right_side = height(root.right)
+      left_side = height(node.left)
+      right_side = height(node.right)
       if left_side > right_side
         left_side+=1
       else
         right_side+=1
       end
     end
+  end
+
+  def depth(val = @root.data, root = @root, dist = 0)
+    if root == nil
+      return -1
+    end
+    if root.data == val
+      0
+    end
+    if val < root.data
+      dist = depth(val, root.left)
+      dist+=1
+    elsif val > root.data
+      dist = depth(val, root.right)
+      dist+=1
+    end
+    dist
+  end
+
+  def balanced(root = @root)
+    [height(root.left), height(root.right)].max - [height(root.left), height(root.right)].min <= 1
+  end
+
+  def rebalance(root = @root)
+    @array = level_order(root).sort.uniq
+    @root = build_tree
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -168,12 +194,12 @@ class Tree
 
 end
 
-arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+arr = Array.new(15){rand(1..100)}
 p arr.sort.uniq
 new_tree = Tree.new(arr)
 new_tree.build_tree
 # p new_tree.root
-new_tree.pretty_print
+# new_tree.pretty_print
 # p new_tree.insert(22)
 # new_tree.insert(32832)
 # puts " "
@@ -186,5 +212,26 @@ new_tree.pretty_print
 # new_tree.delete(67)
 # new_tree.pretty_print
 # p new_tree.find(1)
-p new_tree.level_order
-p new_tree.level_order_rec()
+# p new_tree.level_order
+# p new_tree.level_order_rec()
+# p new_tree.depth(7)
+p new_tree.balanced
+puts "Preorder traversal"
+new_tree.preorder
+puts "Inorder"
+new_tree.inorder
+puts "Postorder"
+new_tree.postorder
+new_tree.insert(103)
+new_tree.insert(122)
+new_tree.insert(256)
+p new_tree.balanced
+new_tree.rebalance
+p new_tree.balanced
+puts "Preorder traversal"
+new_tree.preorder
+puts "Inorder"
+new_tree.inorder
+puts "Postorder"
+new_tree.postorder
+new_tree.pretty_print
